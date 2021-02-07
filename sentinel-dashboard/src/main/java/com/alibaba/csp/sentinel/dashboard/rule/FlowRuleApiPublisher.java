@@ -17,6 +17,7 @@ package com.alibaba.csp.sentinel.dashboard.rule;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import com.alibaba.csp.sentinel.dashboard.client.SentinelApiClient;
 import com.alibaba.csp.sentinel.dashboard.discovery.AppManagement;
@@ -40,12 +41,12 @@ public class FlowRuleApiPublisher implements DynamicRulePublisher<List<FlowRuleE
     private AppManagement appManagement;
 
     @Override
-    public void publish(String app, List<FlowRuleEntity> rules) throws Exception {
+    public CompletableFuture<Void> publish(String app, List<FlowRuleEntity> rules) throws Exception {
         if (StringUtil.isBlank(app)) {
-            return;
+            return null;
         }
         if (rules == null) {
-            return;
+            return null;
         }
         Set<MachineInfo> set = appManagement.getDetailApp(app).getMachines();
 
@@ -56,5 +57,6 @@ public class FlowRuleApiPublisher implements DynamicRulePublisher<List<FlowRuleE
             // TODO: parse the results
             sentinelApiClient.setFlowRuleOfMachine(app, machine.getIp(), machine.getPort(), rules);
         }
+        return null;
     }
 }

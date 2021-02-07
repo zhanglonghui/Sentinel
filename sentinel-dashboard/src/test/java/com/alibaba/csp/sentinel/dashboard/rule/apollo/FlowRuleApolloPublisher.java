@@ -16,6 +16,7 @@
 package com.alibaba.csp.sentinel.dashboard.rule.apollo;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,10 +43,10 @@ public class FlowRuleApolloPublisher implements DynamicRulePublisher<List<FlowRu
     private Converter<List<FlowRuleEntity>, String> converter;
 
     @Override
-    public void publish(String app, List<FlowRuleEntity> rules) throws Exception {
+    public CompletableFuture<Void> publish(String app, List<FlowRuleEntity> rules) throws Exception {
         AssertUtil.notEmpty(app, "app name cannot be empty");
         if (rules == null) {
-            return;
+            return null;
         }
 
         // Increase the configuration
@@ -65,5 +66,6 @@ public class FlowRuleApolloPublisher implements DynamicRulePublisher<List<FlowRu
         namespaceReleaseDTO.setReleasedBy("some-operator");
         namespaceReleaseDTO.setReleaseTitle("Modify or add configurations");
         apolloOpenApiClient.publishNamespace(appId, "DEV", "default", "application", namespaceReleaseDTO);
+        return null;
     }
 }

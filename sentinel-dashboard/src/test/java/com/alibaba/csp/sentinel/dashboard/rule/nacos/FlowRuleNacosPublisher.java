@@ -16,7 +16,9 @@
 package com.alibaba.csp.sentinel.dashboard.rule.nacos;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import com.alibaba.csp.sentinel.dashboard.config.NacosConfigUtil;
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.FlowRuleEntity;
 import com.alibaba.csp.sentinel.dashboard.rule.DynamicRulePublisher;
 import com.alibaba.csp.sentinel.datasource.Converter;
@@ -39,12 +41,13 @@ public class FlowRuleNacosPublisher implements DynamicRulePublisher<List<FlowRul
     private Converter<List<FlowRuleEntity>, String> converter;
 
     @Override
-    public void publish(String app, List<FlowRuleEntity> rules) throws Exception {
+    public CompletableFuture<Void> publish(String app, List<FlowRuleEntity> rules) throws Exception {
         AssertUtil.notEmpty(app, "app name cannot be empty");
         if (rules == null) {
-            return;
+            return null;
         }
-        configService.publishConfig(app + NacosConfigUtil.FLOW_DATA_ID_POSTFIX,
+        configService.publishConfig(app + com.alibaba.csp.sentinel.dashboard.config.NacosConfigUtil.FLOW_DATA_ID_POSTFIX,
             NacosConfigUtil.GROUP_ID, converter.convert(rules));
+        return null;
     }
 }

@@ -102,8 +102,9 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
-            <scope>test</scope>
+            <!--<scope>test</scope>-->
         </dependency>
+
         <!-- for Apollo rule publisher sample -->
         <dependency>
             <groupId>com.ctrip.framework.apollo</groupId>
@@ -113,6 +114,11 @@
         </dependency>
 
         <!--for Zookeeper rule publisher sample-->
+        <!--
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-zookeeper</artifactId>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
